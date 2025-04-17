@@ -18,7 +18,7 @@
       body {
         font-family: Arial, sans-serif;
         min-height: 100vh;
-        overflow: auto; /* Changed from hidden to auto */
+        overflow: auto; /* Allow scrolling */
         padding: 3rem;
         background: linear-gradient(to right, #ffffff, #ffd7f2);
       }
@@ -45,7 +45,7 @@
       }
 
       .container {
-        max-width: 400px;
+        max-width: 90%; /* Use percentage for responsiveness */
         margin: auto;
         background: linear-gradient(to right, #ffffff, #fec8ef);
         backdrop-filter: blur(4px);
@@ -94,8 +94,19 @@
         font-weight: bold;
       }
 
-      script p {
-        display: left;
+      /* Media Queries for Responsiveness */
+      @media (max-width: 600px) {
+        body {
+          padding: 1rem; /* Reduce padding on smaller screens */
+        }
+
+        .container {
+          padding: 2rem; /* Adjust container padding */
+        }
+
+        button {
+          padding: 0.6rem; /* Adjust button padding */
+        }
       }
     </style>
   </head>
