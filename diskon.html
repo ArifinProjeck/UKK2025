@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Penghitung Diskon</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 1rem;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        overflow: hidden;
+        padding: 3rem;
+        background: linear-gradient(to right, #ffffff, #ffd7f2);
+      }
+
+      .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .background span {
+        position: absolute;
+        color: rgba(255, 110, 236, 0.06);
+        font-size: 5rem;
+        font-weight: bold;
+        animation: move 25s linear infinite;
+        white-space: nowrap;
+        user-select: none;
+      }
+
+      .container {
+        max-width: 400px;
+        margin: auto;
+        background: linear-gradient(to right, #ffffff, #fec8ef);
+        backdrop-filter: blur(4px);
+        padding: 3rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 1;
+      }
+
+      input,
+      button {
+        width: 100%;
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+        border-radius: 6px;
+        border: 1px solid #ffd7f2;
+      }
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      button {
+        background: linear-gradient(to right, #ffd7f2, #ffffff);
+        color: #f167c3;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #ffa0e4;
+        color: #e89ace;
+      }
+
+      .result {
+        margin-top: 1rem;
+        font-size: 1.2rem;
+        text-align: center;
+      }
+
+      .error {
+        color: red;
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      script p {
+        display: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Penghitung Diskon</h2>
+      <label for="harga">Harga Awal (Rp)</label>
+      <input type="number" id="harga" placeholder="Masukkan harga awal" />
+
+      <label for="diskon">Diskon (%)</label>
+      <input
+        type="number"
+        id="diskon"
+        placeholder="Masukkan persentase diskon"
+      />
+
+      <button onclick="hitungDiskon()">Kotret</button>
+      <button onclick="resetForm()" type="reset" id="reset">Reset</button>
+
+      <div class="result" id="hasil"></div>
+      <div class="error" id="errorMsg"></div>
+    </div>
+
+    <script>
+      function resetForm() {
+        document.getElementById("harga").value = "";
+        document.getElementById("diskon").value = "";
+        document.getElementById("hasil").value = "";
+        document.getElementById("errorMsg").value = "";
+      }
+
+      function hitungDiskon() {
+        const harga = parseFloat(document.getElementById("harga").value);
+        const diskon = parseFloat(document.getElementById("diskon").value);
+        const hasil = document.getElementById("hasil");
+        const errorMsg = document.getElementById("errorMsg");
+
+        hasil.innerHTML = "";
+        errorMsg.textContent = "";
+
+        if (isNaN(harga) || isNaN(diskon)) {
+          errorMsg.textContent = "Masukkan angka yang valid.";
+          return;
+        }
+
+        if (diskon < 0) {
+          errorMsg.textContent = "Diskon tidak boleh negatif.";
+          return;
+        }
+
+        if (diskon > 100) {
+          errorMsg.textContent = "Diskon tidak boleh lebih dari 100%.";
+          return;
+        }
+
+        if (diskon === 100) {
+          hasil.innerHTML = `
+            <p>Harga Awal: Rp ${harga.toLocaleString("id-ID")}</p>
+            <p>Potongan: Rp ${harga.toLocaleString("id-ID")}</p>
+            <p><strong>Total Harga: GRATIS!</strong></p>
+          `;
+          return;
+        }
+
+        const potongan = (harga * diskon) / 100;
+        const hargaSetelahDiskon = harga - potongan;
+
+        hasil.innerHTML = `
+          <p>Harga Awal: Rp ${harga.toLocaleString("id-ID")}</p>
+          <p>Potongan: Rp ${potongan.toLocaleString("id-ID")}</p>
+          <p><strong>Total Harga: Rp ${hargaSetelahDiskon.toLocaleString(
+            "id-ID"
+          )}</strong></p>
+        `;
+      }
+    </script>
+  </body>
+</html>
